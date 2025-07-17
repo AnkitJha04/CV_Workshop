@@ -1,0 +1,30 @@
+import cv2
+import numpy as np
+
+
+image = cv2.imread("sample.jpg")
+resized_image = cv2.resize(image,(300,300))
+
+
+average = cv2.blur(resized_image,(8,9))
+gausian = cv2.GaussianBlur(resized_image,(7,7), 0)
+median = cv2.medianBlur(resized_image,7)
+bilateral = cv2.bilateralFilter(resized_image,15,75,75)
+
+def put_label(img, text, pos=(10,25)):
+    return cv2.putText(img, text, pos, cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,255,0), 2)
+
+original_lbl = put_label(resized_image.copy(), "original")
+avg_lbl = put_label(average.copy(), "average blur")
+gaussian_lbl = put_label(gausian.copy(), "gausian blur")
+median_lbl = put_label(median.copy(), "median blur")
+bilateral_lbl = put_label(bilateral.copy(), "bilateral blurr")
+
+cv2.imshow('original image', resized_image)
+cv2.imshow('average image', average)
+cv2.imshow('gaussian image', gausian)
+cv2.imshow('median image', median)
+cv2.imshow('bilateral image', bilateral)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
